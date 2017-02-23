@@ -118,13 +118,16 @@ public class ToDoListServlet extends HttpServlet {
                 System.out.print(element.getId() + ":");
                 System.out.println(element.getWhatToDo());
                 jArrayBuilder.add(Json.createObjectBuilder()
-                                .add("name", element.getWhatToDo())
-                                .add("done", false)
-                                .add("id", element.getId())
+                        .add("name", element.getWhatToDo())
+                        .add("done", false)
+                        .add("id", element.getId())
                 );
 
             }
         }
+
+
+
         jObjBuilder.add("tasks", jArrayBuilder);
         JsonObject jSonFinal = jObjBuilder.build();
 

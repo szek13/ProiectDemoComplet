@@ -1,5 +1,7 @@
 package org.fasttrackit.dev.todolist.servlet;
 
+
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,18 +19,30 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+    public static String _nickname = null;
+
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+
 
         // read user and password introduced by the user in the UI
         String user = request.getParameter("u");
         String passwd = request.getParameter("p");
 
-        // static & simulated db row
-        final String dbu="ionel";
-        final String dbp="anaaremere1";
-        final String userid="356";
+        _nickname = user;
+
+//        // static & simulated db row
+//        final String dbu="razvan";
+//        final String dbp="razvan95";
 
 
+
+
+
+        UserAccessList userAccess = new UserAccessList();
+
+        //final int userid=userAccess.getUserID(user);
 
 
 
@@ -38,11 +52,11 @@ public class LoginServlet extends HttpServlet {
         // TASK: pls fix the UI and the usability by adding some css classes
 
 
-        if(dbu.equals(user) && dbp.equals(passwd)) {
+        if(userAccess.checkUserCredentials(user, passwd)) {
             // userul exista in db, deci il autentific
             HttpSession session = request.getSession(true);
             session.setAttribute("username",user);
-            session.setAttribute("usernameid",userid);
+
 
             String success = "/todolist.html";
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(success);
@@ -50,7 +64,7 @@ public class LoginServlet extends HttpServlet {
         }
         else {
             System.out.println("nu exista acest user in db, deci nu fac nimic ");
-            String back = "/login.html";
+            String back = "/response.html";
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(back);
             dispatcher.forward(request, response);
         }
