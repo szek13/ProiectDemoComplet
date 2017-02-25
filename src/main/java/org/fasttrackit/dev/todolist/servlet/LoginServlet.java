@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    public static String _nickname = null;
+
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         String user = request.getParameter("u");
         String passwd = request.getParameter("p");
 
-        _nickname = user;
+
 
 //        // static & simulated db row
 //        final String dbu="razvan";
@@ -51,12 +51,15 @@ public class LoginServlet extends HttpServlet {
         // the UI and the usability is so ugly
         // TASK: pls fix the UI and the usability by adding some css classes
 
+        int iduser=-1;
 
-        if(userAccess.checkUserCredentials(user, passwd)) {
+        iduser=userAccess.checkUserCredentials(user, passwd);
+        if(iduser!=-1) {
             System.out.println(user + "0000");
             // userul exista in db, deci il autentific
             HttpSession session = request.getSession(true);
             session.setAttribute("username",user);
+            session.setAttribute("userid",iduser);
 
 
             String success = "/todolist.html";

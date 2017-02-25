@@ -13,7 +13,9 @@ import java.util.List;
  */
 public class AccessTaskList {
 
-    public List getTaskList() {
+    public List getTaskList(int iduser) {
+
+        System.out.println("iduser="+iduser);
 
         List listaTaskList = new ArrayList<ToDoBean>();
         try {
@@ -39,7 +41,7 @@ public class AccessTaskList {
             // 5. execute a query
 
             PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, userAccess.getUserID(LoginServlet._nickname));
+            st.setInt(1, iduser);
             ResultSet rs = st.executeQuery();
 
             // 6. iterate the result set and print the values
@@ -68,7 +70,7 @@ public class AccessTaskList {
         return listaTaskList;
     }
 
-    public void insertTaskList(String nameOfTheTask) {
+    public void insertTaskList(String nameOfTheTask, int iduser) {
 
         // presupun ca am tabela faq faq (id, intrebare, raspuns)
 
@@ -96,7 +98,7 @@ public class AccessTaskList {
             PreparedStatement pSt = conn.prepareStatement("INSERT INTO tasklist (taskname,isdone,fkuser) VALUES (?,?,?)");
             pSt.setString(1, nameOfTheTask);
             pSt.setBoolean(2, false);
-            pSt.setInt(3,userAccess.getUserID(LoginServlet._nickname));
+            pSt.setInt(3,iduser);
 
             // 5. execute a prepared statement
             int rowsInserted = pSt.executeUpdate();
@@ -113,7 +115,7 @@ public class AccessTaskList {
     }
 
 
-    public void markDone(int id) {
+    public void markDone(int id, int iduser) {
 
         // presupun ca am tabela faq faq (id, intrebare, raspuns)
 
@@ -138,14 +140,15 @@ public class AccessTaskList {
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
             // 4. create a query statement
-            PreparedStatement pSt = conn.prepareStatement("update tasklist set isdone=true where task_id=?");
+            PreparedStatement pSt = conn.prepareStatement("update tasklist set isdone=true where task_id=? and fkuser=?");
             pSt.setInt(1, id);
+            pSt.setInt(2,iduser);
 
 
             // 5. execute a prepared statement
             int rowsInserted = pSt.executeUpdate();
 
-            // 6. close the objects
+            // 6. close the objects-
             pSt.close();
             conn.close();
         } catch (SQLException e) {

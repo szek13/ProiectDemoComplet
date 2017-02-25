@@ -114,10 +114,16 @@ public class ToDoListServlet extends HttpServlet {
 //        myListObject.printList();
 //        List<ToDoBean> l = myListObject.getList();
 
-
+        System.out.println("inainte");
         AccessTaskList atl = new AccessTaskList();
-        List<ToDoBean> l = atl.getTaskList();
 
+        Integer s = (Integer)session.getAttribute("userid");
+        System.out.println("ses:"+s);
+
+
+
+        List<ToDoBean> l = atl.getTaskList(s);
+        System.out.println("dupa");
 
 
         // put the list in a json
@@ -155,11 +161,13 @@ public class ToDoListServlet extends HttpServlet {
 
         HttpSession session = request.getSession(true);
 
+        Integer iduser=(Integer)session.getAttribute("userid");
+
         String idS = request.getParameter(ID_TASK);
         int id = Integer.parseInt(idS);
 
         AccessTaskList atl = new AccessTaskList();
-        atl.markDone(id);
+        atl.markDone(id, iduser);
 
 //        MyListOfToDoMock myListObject = MyListOfToDoMock.getInstance();
 //
@@ -196,7 +204,7 @@ public class ToDoListServlet extends HttpServlet {
 
 
         AccessTaskList atl = new AccessTaskList();
-        atl.insertTaskList(value);
+        atl.insertTaskList(value, (Integer)session.getAttribute("userid"));
 
         System.out.println("now I am done");
 
