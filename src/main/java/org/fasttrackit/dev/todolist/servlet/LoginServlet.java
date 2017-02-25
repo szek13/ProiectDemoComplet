@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 
 
         if(userAccess.checkUserCredentials(user, passwd)) {
+            System.out.println(user + "0000");
             // userul exista in db, deci il autentific
             HttpSession session = request.getSession(true);
             session.setAttribute("username",user);
@@ -64,7 +65,7 @@ public class LoginServlet extends HttpServlet {
         }
         else {
             System.out.println("nu exista acest user in db, deci nu fac nimic ");
-            String back = "/response.html";
+            String back = "/login.html";
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(back);
             dispatcher.forward(request, response);
         }

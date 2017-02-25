@@ -54,11 +54,13 @@ public class ToDoListServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
 
         String username=(String)session.getAttribute("username");
+        System.out.println(username + "234rftgyhuj");
         if(username==null) // nu esti logat
+
         {
             System.out.println("nu esti logat nene");
-            notLoginAction(request, response, true);
 
+            notLoginAction(request, response, true);
 //            try {
 //                System.out.println("nu exista acest user in db, deci nu fac nimic ");
 //                String back = "/login.html";
@@ -86,8 +88,17 @@ public class ToDoListServlet extends HttpServlet {
             else if (action != null && action.equals("seeLogin")) {
                 notLoginAction(request, response, false);
             }
+            if (request.getSession(false).getAttribute("username") == null && action.equals("logout")) {
+                try {
+                    response.sendRedirect("./todolist.html");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
+            }
 
-        }
+
     }
 
 
@@ -214,6 +225,20 @@ public class ToDoListServlet extends HttpServlet {
             String username=(String)request.getSession().getAttribute("username");
             System.out.println("username in verificare:"+username);
             jsonResponse = "{\"keyError\":\"Hello my friend "+username+"\"}";
+        }
+        returnJsonResponse(response, jsonResponse.toString());
+        System.out.println("end list action");
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response, boolean doLogout)
+    {
+        String  jsonResponse;
+        if(doLogout)
+            jsonResponse = "{\"keyError\":\"You are  logged out. \"}";
+        else {
+
+            System.out.println("Welcome");
+            jsonResponse = "{\"keyError\":\"Hello my friend "+"\"}";
         }
         returnJsonResponse(response, jsonResponse.toString());
         System.out.println("end list action");

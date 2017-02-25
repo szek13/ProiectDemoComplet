@@ -35,7 +35,7 @@ public class AccessTaskList {
             // 4. create a query statement
 
 
-            String query = "SELECT * FROM tasklist join userlist on  userlist.fkuser = tasklist.task_id where user_id=? ";
+            String query = "SELECT * FROM tasklist join userlist on  userlist.user_id = tasklist.fkuser where user_id=? ";
             // 5. execute a query
 
             PreparedStatement st = conn.prepareStatement(query);
@@ -90,10 +90,13 @@ public class AccessTaskList {
             Class.forName("org.postgresql.Driver");
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
+            UserAccessList userAccess = new UserAccessList();
+
             // 4. create a query statement
-            PreparedStatement pSt = conn.prepareStatement("INSERT INTO tasklist (taskname,isdone) VALUES (?,?)");
+            PreparedStatement pSt = conn.prepareStatement("INSERT INTO tasklist (taskname,isdone,fkuser) VALUES (?,?,?)");
             pSt.setString(1, nameOfTheTask);
             pSt.setBoolean(2, false);
+            pSt.setInt(3,userAccess.getUserID(LoginServlet._nickname));
 
             // 5. execute a prepared statement
             int rowsInserted = pSt.executeUpdate();
@@ -129,11 +132,13 @@ public class AccessTaskList {
         // 3. obtain a connection
         try {
 
+            UserAccessList userAccess = new UserAccessList();
+
             Class.forName("org.postgresql.Driver");
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
             // 4. create a query statement
-            PreparedStatement pSt = conn.prepareStatement("update tasklist set isdone=true where id=?");
+            PreparedStatement pSt = conn.prepareStatement("update tasklist set isdone=true where task_id=?");
             pSt.setInt(1, id);
 
 
