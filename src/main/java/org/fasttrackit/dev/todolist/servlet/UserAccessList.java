@@ -161,6 +161,48 @@ public class UserAccessList {
 
     }
 
+    public void passwordChange(String username, String password) {
+
+        System.out.println("sunt aici");
+
+        try {
+
+
+
+            Class.forName("org.postgresql.Driver");
+
+
+            // 2. define connection params to db
+            final String URL = "jdbc:postgresql://54.93.65.5:5432/5NumePrenume";
+            final String USERNAME = "fasttrackit_dev";
+            final String PASSWORD = "fasttrackit_dev";
+
+            // 3. obtain a connection
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+            // 4. create a query statement
+//            Statement st = conn.createStatement();
+
+            String query = "UPDATE userlist SET password=? WHERE username=?";
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, password);
+            statement.setString(2, username);
+
+            // 5. execute a query
+            statement.executeUpdate();
+
+
+
+            statement.close();
+            conn.close();
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
 
 
 }

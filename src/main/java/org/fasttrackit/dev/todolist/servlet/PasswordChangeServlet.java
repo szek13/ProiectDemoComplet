@@ -1,7 +1,10 @@
 package org.fasttrackit.dev.todolist.servlet;
 
+import javax.servlet.annotation.WebServlet;
 
-
+/**
+ * Created by Csongor on 2/28/2017.
+ */
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,31 +14,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Created by icondor on 18/02/17.
- */
-
-
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
-
+@WebServlet ("/passwchange")
+public class PasswordChangeServlet extends HttpServlet {
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("gooool");
 
+
+        // read user and password introduced by the user in the UI
         String username = request.getParameter("u");
         String password = request.getParameter("p");
 
-                UserAccessList ual = new UserAccessList();
+        UserAccessList passChange = new UserAccessList();
 
+        passChange.passwordChange(username, password);
 
-
-        ual.insertUser(username, password); // insert into users (?,?) ....
-
-        // intoarcere la login
-
-        String back = "/login.html";
+        String back = "/todolist.html";
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(back);
         dispatcher.forward(request, response);
     }
+
 }
