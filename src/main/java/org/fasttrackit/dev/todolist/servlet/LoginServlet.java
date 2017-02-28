@@ -40,7 +40,10 @@ public class LoginServlet extends HttpServlet {
 
 
 
+
         UserAccessList userAccess = new UserAccessList();
+
+
 
         //final int userid=userAccess.getUserID(user);
 
